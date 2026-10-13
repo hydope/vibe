@@ -1,0 +1,1 @@
+{"dependencies":{"express":"^4.19.2"},"description":"The 10-line app Vibe runs in seconds.","license":"MIT","main":"index.js","name":"vibe-demo","scripts":{"start":"node index.js"},"version":"1.0.0"}
