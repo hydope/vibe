@@ -92,3 +92,13 @@ export function copyDirFiltered(src: string, dest: string): void {
 export function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
+
+/** Version from package.json, so the banner never drifts from the release. */
+export const VIBE_VERSION: string = (() => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require('../package.json').version as string;
+  } catch {
+    return 'dev';
+  }
+})();

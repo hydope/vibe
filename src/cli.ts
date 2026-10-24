@@ -5,14 +5,14 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { run } from './run';
 import { doctor } from './doctor';
-import { VibeError, runsDir } from './util';
+import { VibeError, runsDir, VIBE_VERSION } from './util';
 
 const program = new Command();
 
 program
   .name('vibe')
   .description('Zero-touch autonomous execution engine — point it at any repo, get a running app.')
-  .version('0.1.1', '-v, --version', 'print the version');
+  .version(VIBE_VERSION, '-v, --version', 'print the version');
 
 program
   .argument('[repo]', 'GitHub shorthand (owner/repo), git URL, or local directory')

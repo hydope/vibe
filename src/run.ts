@@ -15,7 +15,7 @@ import {
   dockerRun,
   type ManagedProcess,
 } from './sandbox';
-import { VibeError, runCmd, copyDirFiltered, slugify, runsDir, which } from './util';
+import { VibeError, runCmd, copyDirFiltered, slugify, runsDir, which, VIBE_VERSION } from './util';
 
 export interface RunOptions {
   docker?: boolean;
@@ -170,7 +170,7 @@ async function runDockerMode(runDir: string, slug: string, opts: RunOptions): Pr
 }
 
 export async function run(input: string, opts: RunOptions): Promise<void> {
-  console.log(chalk.bold('\nvibe ') + chalk.dim('v0.1.0 — zero-touch execution engine'));
+  console.log(chalk.bold('\nvibe ') + chalk.dim(`v${VIBE_VERSION} — zero-touch execution engine`));
   const target = resolveTarget(input);
   console.log(chalk.dim(`Target: ${target.kind === 'git' ? target.url : target.localDir}`));
 
