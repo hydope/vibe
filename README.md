@@ -14,7 +14,8 @@
 
 ```bash
 npx -y hydope/vibe demo                                    # bundled Express app: detect → npm install → serve
-npx -y hydope/vibe heroku/node-js-getting-started          # any public GitHub repo (owner/name or URL)
+npx -y hydope/vibe hydope/vibe-demo                        # clone + run a public repo (owner/name or URL)
+npx -y hydope/vibe heroku/node-js-getting-started          # any public GitHub repo
 npx -y hydope/vibe ./path/to/your/project                  # or a local folder
 ```
 
@@ -29,6 +30,7 @@ Every row below was run end-to-end with Vibe v0.1.1 and answered `HTTP 200` on `
 | Target | Stack | Result |
 |---|---|---|
 | `npx -y hydope/vibe demo` | Node + Express | served in ~5s (bundled, works offline after first install) |
+| `hydope/vibe-demo` | Node + Express (git clone) | served on first try |
 | `heroku/node-js-getting-started` | Node + Express + EJS | served on first try |
 | `render-examples/flask-hello-world` | Python + Flask (venv + pip) | served on first try |
 
