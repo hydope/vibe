@@ -48,11 +48,11 @@ program
 
 program
   .command('demo')
-  .description('run the bundled demo app (examples/hello-express), no other repo needed')
+  .description('run the bundled demo app (examples/vibe-demo), no other repo needed')
   .option('--port <n>', 'preferred starting port (default: auto)', (v: string) => parseInt(v, 10))
   .action(async (opts) => {
     try {
-      const dir = path.resolve(__dirname, '..', 'examples', 'hello-express');
+      const dir = path.resolve(__dirname, '..', 'examples', 'vibe-demo');
       if (!fs.existsSync(dir)) throw new VibeError(`Bundled demo not found at ${dir}`);
       await run(dir, { docker: false, tunnel: false, env: {}, port: opts.port as number | undefined, install: true });
     } catch (err) {

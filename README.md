@@ -13,15 +13,14 @@
 ## 🚀 Try it in 10 seconds
 
 ```bash
-npx -y hydope/vibe demo                                    # bundled Express app: detect → npm install → serve
-npx -y hydope/vibe hydope/vibe-demo                        # clone + run a public repo (owner/name or URL)
-npx -y hydope/vibe heroku/node-js-getting-started          # any public GitHub repo
+npx -y hydope/vibe demo                                    # bundled examples/vibe-demo: detect → npm install → serve
+npx -y hydope/vibe heroku/node-js-getting-started          # any public GitHub repo (owner/name or URL)
 npx -y hydope/vibe ./path/to/your/project                  # or a local folder
 ```
 
 Vibe shallow-clones the repo, sniffs the stack, installs dependencies with the right package manager, figures out the start command, grabs a free port, injects `PORT`, and runs it in a sandbox, streaming clean logs while it works. No Dockerfile to write. No YAML. No README archaeology.
 
-Requires Node ≥ 18 and git. Runs straight from GitHub via `npx`, no npm account or global install needed.
+Requires Node ≥ 18 and git. Runs straight from this repo via `npx`, no npm account or global install needed. Everything Vibe ships (the CLI, published later as `vibe-run`, and the demo app) lives in this one repo.
 
 ## 🧪 Verified on real repos
 
@@ -29,8 +28,7 @@ Every row below was run end-to-end with Vibe v0.1.1 and answered `HTTP 200` on `
 
 | Target | Stack | Result |
 |---|---|---|
-| `npx -y hydope/vibe demo` | Node + Express | served in ~5s (bundled, works offline after first install) |
-| `hydope/vibe-demo` | Node + Express (git clone) | served on first try |
+| `npx -y hydope/vibe demo` | Node + Express ([`examples/vibe-demo`](examples/vibe-demo)) | served in ~5s, nothing else to clone |
 | `heroku/node-js-getting-started` | Node + Express + EJS | served on first try |
 | `render-examples/flask-hello-world` | Python + Flask (venv + pip) | served on first try |
 
@@ -107,7 +105,7 @@ npx -y hydope/vibe <your-repo-url>
 
 ## 🛣️ Roadmap
 
-- [x] `vibe demo`: bundled example so the quickstart works with nothing else (v0.1.1)
+- [x] One repo: CLI (`vibe-run` package) + demo app live here; `vibe demo` works with nothing else (v0.1.1)
 - [ ] `npm i -g vibe-run` (npm publish)
 - [ ] Container-first sandbox (rootless, resource-capped) as the default
 - [ ] More stacks: Bun, Deno, PHP, Ruby, JVM
