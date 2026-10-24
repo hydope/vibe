@@ -11,7 +11,7 @@
 Hey HN. I got tired of the same ritual: find an interesting repo, clone it, read a stale README, install the wrong Node version, chase a missing env var, give up. So I built Vibe — a CLI that takes any repo link and gets it running with zero manual configuration.
 
 ```
-npx abicevoice1-sudo/vibe https://github.com/user/cool-project
+npx hydope/vibe https://github.com/user/cool-project
 ```
 
 That's the whole thing. It shallow-clones the repo, sniffs the stack (package.json / requirements.txt / go.mod / Cargo.toml / Dockerfile / static files), installs dependencies with the right package manager, figures out the start command, grabs a free port, injects PORT, and runs it in a sandboxed child process — or Docker, if you'd rather. It streams logs with a clean TUI while it works.
@@ -22,7 +22,7 @@ Honest scope: this is v0.1.0. Node, Python, Go, Rust, and static sites work toda
 
 The 10-second demo: point it at any small Express or Flask app you've never seen before and watch it figure out the whole pipeline itself. That's the moment I built it for.
 
-Repo: https://github.com/abicevoice1-sudo/vibe
+Repo: https://github.com/hydope/vibe
 
 I'd genuinely love teardowns — especially of the stack-detection heuristics (I'm sure they're wrong in interesting ways) and the sandboxing model. What's the repo in your bookmarks that never ran? Try it on that one and tell me where it breaks.
 

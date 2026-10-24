@@ -1,0 +1,8 @@
+{
+  "name": "vibe-hello-express",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Tiny demo app bundled with Vibe. Run it with: npx -y hydope/vibe demo",
+  "scripts": { "start": "node index.js" },
+  "dependencies": { "express": "^4.21.2" }
+}

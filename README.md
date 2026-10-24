@@ -1,24 +1,38 @@
 # ⚡ Vibe
 
-### The zero-touch execution engine — point it at any repo, get a running app.
+### Point it at any repo. Get a running app. Zero config.
 
-[![CI](https://github.com/abicevoice1-sudo/vibe/actions/workflows/ci.yml/badge.svg)](https://github.com/abicevoice1-sudo/vibe/actions/workflows/ci.yml)
+[![CI](https://github.com/hydope/vibe/actions/workflows/ci.yml/badge.svg)](https://github.com/hydope/vibe/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)](package.json)
 
+![Vibe running its bundled demo: one command, detect, install, serve](demo/vibe-demo.gif)
+
+<sub>Real terminal recording of `npx -y hydope/vibe demo` (made with [VHS](https://github.com/charmbracelet/vhs) from [`demo/vibe-demo.tape`](demo/vibe-demo.tape)), nothing staged.</sub>
+
+## 🚀 Try it in 10 seconds
+
 ```bash
-npx -y abicevoice1-sudo/vibe https://github.com/user/cool-project
+npx -y hydope/vibe demo                                    # bundled Express app: detect → npm install → serve
+npx -y hydope/vibe heroku/node-js-getting-started          # any public GitHub repo (owner/name or URL)
+npx -y hydope/vibe ./path/to/your/project                  # or a local folder
 ```
 
-That's the whole thing. Vibe shallow-clones the repo, sniffs the stack, installs dependencies with the right package manager, figures out the start command, grabs a free port, injects `PORT`, and runs it in a sandbox — streaming clean logs while it works. No Dockerfile to write. No YAML. No README archaeology.
+Vibe shallow-clones the repo, sniffs the stack, installs dependencies with the right package manager, figures out the start command, grabs a free port, injects `PORT`, and runs it in a sandbox, streaming clean logs while it works. No Dockerfile to write. No YAML. No README archaeology.
 
----
+Requires Node ≥ 18 and git. Runs straight from GitHub via `npx`, no npm account or global install needed.
 
-## 👀 Watch it work
+## 🧪 Verified on real repos
 
-Real session, real timer — the 10-line [demo app](https://github.com/abicevoice1-sudo/vibe-demo), from URL to serving:
+Every row below was run end-to-end with Vibe v0.1.1 and answered `HTTP 200` on `/`:
 
-![Vibe demo: one command, running app in seconds](demo.svg)
+| Target | Stack | Result |
+|---|---|---|
+| `npx -y hydope/vibe demo` | Node + Express | served in ~5s (bundled, works offline after first install) |
+| `heroku/node-js-getting-started` | Node + Express + EJS | served on first try |
+| `render-examples/flask-hello-world` | Python + Flask (venv + pip) | served on first try |
+
+Big monorepos that need API keys (e.g. cal.com) stop and tell you exactly which env vars are missing instead of pretending. Found a repo Vibe can't run? [Open an issue](https://github.com/hydope/vibe/issues/new) with the URL and the log tail; that is the most useful bug report there is.
 
 ## 🧠 What it actually does
 
@@ -44,52 +58,21 @@ Two retries max, then it hands you the real error. Nothing silent, nothing magic
 
 **Sandbox** — apps run as child processes with a scrubbed environment (only `PATH`, `HOME`, `PORT`, and your `--env` flags), a 10-minute install cap, and full process-tree kill on exit. `--docker` builds and runs the repo's `Dockerfile` instead. `--tunnel` exposes it publicly via cloudflared.
 
-## 🆚 Why not just use…
+## 🆚 How it compares
 
-| | **Vibe** | Docker | Gitpod | Codespaces | Vercel |
+| | **Vibe** | [Nixpacks](https://github.com/railwayapp/nixpacks) (★3.5k) | [Buildpacks `pack`](https://github.com/buildpacks/pack) (★3.0k) | [Dev Containers CLI](https://github.com/devcontainers/cli) (★3.0k) | [Gitpod](https://github.com/gitpod-io/gitpod) (★13.8k) |
 |---|---|---|---|---|---|
-| Run any repo with zero config | ✅ | ❌ needs a Dockerfile | ⚠️ best with `.gitpod.yml` | ⚠️ best with devcontainer | ❌ web frameworks only |
-| Works locally, no account | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Auto-detects stack & start command | ✅ | ❌ | ❌ | ❌ | ⚠️ frameworks only |
-| Self-heals missing deps / ports | ✅ | ❌ | ❌ | ❌ | ❌ |
-| One-command public URL | ✅ `--tunnel` | ❌ | ✅ | ✅ | ✅ |
-| Production deploys | 🛣️ roadmap | ✅ | ⚠️ | ⚠️ | ✅ |
-| Open source (MIT) | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Goal | **run it now, locally** | build an OCI image | build an OCI image | reproducible dev env | cloud dev env |
+| Zero config on a random repo | ✅ | ✅ | ✅ | ⚠️ wants `devcontainer.json` | ⚠️ best with `.gitpod.yml` |
+| Needs Docker | ❌ (optional `--docker`) | ✅ | ✅ | ✅ | hosted |
+| Starts the app + finds a free port | ✅ | ❌ build only | ❌ build only | ❌ | ✅ |
+| Self-heals missing deps / busy ports | ✅ | ❌ | ❌ | ❌ | ❌ |
+| One-command public URL | ✅ `--tunnel` | ❌ | ❌ | ❌ | ✅ |
+| Account required | ❌ | ❌ | ❌ | ❌ | ✅ |
 
-Vibe isn't a Docker or Vercel replacement — it's the thing you reach for *before* all of that, when you just want to see the code run.
+<sub>Star counts from the GitHub API on 2026-10-23.</sub>
 
-## 🧪 Try it on these right now
-
-```bash
-npx -y abicevoice1-sudo/vibe <any-of-these>
-```
-
-| Repo | Stack | What to expect |
-|---|---|---|
-| `abicevoice1-sudo/vibe-demo` | Node | the 10-line app — running in ~20s, guaranteed |
-| `hoppscotch/hoppscotch` | Node (pnpm) | full API client app, standard layout |
-| `calcom/cal.com` | Node (yarn monorepo) | boots, then tells you exactly which env keys it needs |
-| `open-webui/open-webui` | Python | backend via pip |
-| `Significant-Gravitas/Auto-GPT` | Python | classic agent, venv install |
-| `immich-app/immich` | Docker Compose | use `--docker` |
-| `vercel/next.js` | Node | run an example dir, e.g. `examples/hello-world` |
-
-v0.1.0 nails standard single-service layouts. Giant monorepos with required API keys will stop and tell you what's missing instead of pretending — PRs welcome for every miss.
-
-## 📦 Install
-
-```bash
-# No install needed — run straight from GitHub:
-npx -y abicevoice1-sudo/vibe <repo>
-
-# Or install globally (once published to npm):
-npm i -g vibe-run
-
-# From source:
-git clone https://github.com/abicevoice1-sudo/vibe && cd vibe && npm install && npm run build
-```
-
-Requires Node ≥ 18 and git. Python/Go/Rust/Docker support lights up automatically when those tools are installed — `vibe doctor` tells you what's missing.
+Vibe isn't a replacement for any of these. It's the thing you reach for *before* them, when you just want to see the code run.
 
 ## ⌨️ Usage
 
@@ -102,6 +85,7 @@ vibe <repo> [options]          # run it. repo = owner/name, git URL, or local di
   --port N                     # preferred starting port (default: auto)
   --no-install                 # skip dependency install
 
+vibe demo                      # run the bundled demo app (no other repo needed)
 vibe doctor                    # check your toolchain
 vibe badge [owner/repo]        # print a "Run with Vibe" README badge
 vibe clean                     # wipe cached runs (~/.vibe/runs)
@@ -112,25 +96,37 @@ vibe clean                     # wipe cached runs (~/.vibe/runs)
 Let people run your project with one click:
 
 ```markdown
-[![Run with Vibe](https://img.shields.io/badge/Run_with-Vibe-7c3aed?style=flat-square)](https://github.com/abicevoice1-sudo/vibe)
+[![Run with Vibe](https://img.shields.io/badge/Run_with-Vibe-7c3aed?style=flat-square)](https://github.com/hydope/vibe)
 ```
 
 ```bash
-npx -y abicevoice1-sudo/vibe <your-repo-url>
+npx -y hydope/vibe <your-repo-url>
 ```
 
 ## 🛣️ Roadmap
 
+- [x] `vibe demo`: bundled example so the quickstart works with nothing else (v0.1.1)
+- [ ] `npm i -g vibe-run` (npm publish)
 - [ ] Container-first sandbox (rootless, resource-capped) as the default
-- [ ] `vibe deploy` — one-click export to AWS/GCP/Fly/K8s
-- [ ] More stacks: Bun, Deno, Zig, PHP, Ruby, JVM
-- [ ] Smarter healing: an LLM pass over unknown tracebacks (opt-in)
-- [ ] Single-binary `curl | bash` install (Go/Rust port)
+- [ ] More stacks: Bun, Deno, PHP, Ruby, JVM
+- [ ] Smarter healing: an opt-in LLM pass over unknown tracebacks
+- [ ] `vibe deploy`: one-click export to Fly / Render / K8s
 
 ## 🤝 Contributing
 
-Found a repo Vibe can't run? That's the best possible issue — [open one](https://github.com/abicevoice1-sudo/vibe/issues) with the repo URL and the log tail. PRs that add stack detectors or heal patterns are especially welcome. See [ARCHITECTURE.md](ARCHITECTURE.md) for the pipeline.
+Found a repo Vibe can't run? That's the best possible issue: [open one](https://github.com/hydope/vibe/issues) with the repo URL and the log tail. PRs that add stack detectors or heal patterns are especially welcome. See [ARCHITECTURE.md](ARCHITECTURE.md) for the pipeline.
+
+```bash
+git clone https://github.com/hydope/vibe && cd vibe && npm install && npm test
+node dist/cli.js demo
+```
+
+## 🏷️ Add the badge to your repo
+
+```markdown
+[![Run with Vibe](https://img.shields.io/badge/Run_with-Vibe-7c3aed?style=flat-square)](https://github.com/hydope/vibe)
+```
 
 ## 📄 License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

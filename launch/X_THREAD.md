@@ -11,7 +11,7 @@ Clone repo. Wrong Node version. Missing env var. Stale install docs. Dead aftern
 
 So I built Vibe — a CLI that takes ANY repo link and just runs it. Zero config.
 
-`npx abicevoice1-sudo/vibe https://github.com/user/cool-project`
+`npx hydope/vibe https://github.com/user/cool-project`
 
 That's the whole install story. 🧵
 
@@ -65,12 +65,12 @@ Vibe is dumber and smaller: a local CLI for the "I just want to SEE this thing r
 **7/**
 Try it on the repo in your bookmarks that never ran. The one you starred 2 years ago and gave up on.
 
-`npx abicevoice1-sudo/vibe <paste the url>`
+`npx hydope/vibe <paste the url>`
 
 Tell me where it breaks — the stack-detection heuristics are definitely wrong in interesting ways, and I want your counterexamples.
 
 **8/**
-Vibe is open source (MIT): https://github.com/abicevoice1-sudo/vibe
+Vibe is open source (MIT): https://github.com/hydope/vibe
 
 If the idea resonates — zero-touch execution for any repo — a ⭐ helps more people find it.
 

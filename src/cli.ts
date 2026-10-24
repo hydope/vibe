@@ -2,6 +2,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { run } from './run';
 import { doctor } from './doctor';
 import { VibeError, runsDir } from './util';
@@ -11,7 +12,7 @@ const program = new Command();
 program
   .name('vibe')
   .description('Zero-touch autonomous execution engine — point it at any repo, get a running app.')
-  .version('0.1.0', '-v, --version', 'print the version');
+  .version('0.1.1', '-v, --version', 'print the version');
 
 program
   .argument('[repo]', 'GitHub shorthand (owner/repo), git URL, or local directory')
@@ -46,6 +47,21 @@ program
   });
 
 program
+  .command('demo')
+  .description('run the bundled demo app (examples/hello-express), no other repo needed')
+  .option('--port <n>', 'preferred starting port (default: auto)', (v: string) => parseInt(v, 10))
+  .action(async (opts) => {
+    try {
+      const dir = path.resolve(__dirname, '..', 'examples', 'hello-express');
+      if (!fs.existsSync(dir)) throw new VibeError(`Bundled demo not found at ${dir}`);
+      await run(dir, { docker: false, tunnel: false, env: {}, port: opts.port as number | undefined, install: true });
+    } catch (err) {
+      console.error(chalk.red(`\n${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+program
   .command('doctor')
   .description('check that the tools vibe needs are installed')
   .action(async () => {
@@ -55,15 +71,15 @@ program
 program
   .command('badge')
   .description('print a copy-paste "Run with Vibe" README badge')
-  .argument('[repo]', 'owner/repo the badge one-liner points at (default: abicevoice1-sudo/vibe)')
+  .argument('[repo]', 'owner/repo the badge one-liner points at (default: hydope/vibe)')
   .action((repo: string | undefined) => {
-    const target = repo ?? 'abicevoice1-sudo/vibe';
+    const target = repo ?? 'hydope/vibe';
     console.log(
-      '[![Run with Vibe](https://img.shields.io/badge/Run_with-Vibe-7c3aed?style=flat-square)](https://github.com/abicevoice1-sudo/vibe)'
+      '[![Run with Vibe](https://img.shields.io/badge/Run_with-Vibe-7c3aed?style=flat-square)](https://github.com/hydope/vibe)'
     );
     console.log();
     console.log(chalk.dim('One-liner for your README:'));
-    console.log(`  npx -y abicevoice1-sudo/vibe ${target}`);
+    console.log(`  npx -y hydope/vibe ${target}`);
   });
 
 program

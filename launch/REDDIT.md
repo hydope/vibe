@@ -13,7 +13,7 @@ Hey r/SideProject — long-time lurker, finally shipping something.
 **What I built:** Vibe, a zero-config CLI. You give it any repo link, it figures out the rest:
 
 ```
-npx abicevoice1-sudo/vibe https://github.com/user/cool-project
+npx hydope/vibe https://github.com/user/cool-project
 ```
 
 Under the hood it shallow-clones, detects the stack from lockfiles/manifests/framework fingerprints (Node, Python, Go, Rust, static sites), installs dependencies with the correct package manager, picks a start command, allocates a free port, and runs it in a sandboxed process (or Docker if you prefer). There's also a small self-healing loop: it watches stderr, and on common failures — missing npm/pip module, port collision, unset env var — it fixes the obvious thing and retries, printing everything it does. Two retries max, then it gives you the real error instead of guessing forever.
@@ -22,6 +22,6 @@ Under the hood it shallow-clones, detects the stack from lockfiles/manifests/fra
 
 **Why I'm posting here:** I'd love for people to try it on the repo in their bookmarks that never ran, and tell me where the detection goes wrong. The heuristics are the heart of the project and they need adversarial testing.
 
-Repo: https://github.com/abicevoice1-sudo/vibe
+Repo: https://github.com/hydope/vibe
 
 Happy to answer anything about the implementation — stack detection, the sandboxing model, or why I didn't just write a Dockerfile generator (short answer: I wanted zero files authored, ever).
